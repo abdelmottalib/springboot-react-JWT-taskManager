@@ -37,4 +37,12 @@ public class TodoJPAService implements TodoDao {
     public Optional<Todo> findById(Integer id) {
         return todoRepository.findById(id);
     }
+    @Override
+    public void updateById(Integer id, TodoRequest request) {
+        Todo todo = todoRepository.findById(id).get();
+        todo.setTitle(request.getTitle());
+        todo.setDescription(request.getDescription());
+        todo.setDone(request.getDone());
+        todoRepository.save(todo);
+    }
 }

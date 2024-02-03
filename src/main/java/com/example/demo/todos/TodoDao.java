@@ -12,4 +12,5 @@ public interface TodoDao {
     void deleteById(Integer id);
     Boolean existsById(Integer id);
     Optional<Todo> findById(Integer id);
+    void updateById(Integer id, TodoRequest request);
 }

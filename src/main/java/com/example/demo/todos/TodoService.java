@@ -1,6 +1,7 @@
 package com.example.demo.todos;
 
 
+import exceptions.FieldIsEmptyException;
 import exceptions.IdNotFoundException;
 import exceptions.TitleAlreadyExistsException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class TodoService {
         return this.todoDao.getTodos();
     }
         public void addTodo(TodoRequest request) {
+            System.out.println(request.getTitle() + " " + request.getDescription() + " " + request.getDone());
+        if (request.getTitle() == null || request.getDescription() == null || !request.getDone()) {
+            throw new FieldIsEmptyException("Title, description, and done fields cannot be empty");
+        }
         if (todoDao.existsByTitle(request.getTitle())) {
             throw new TitleAlreadyExistsException(request.getTitle() + " already exists");
         }
@@ -30,5 +35,11 @@ public class TodoService {
     }
     public Todo findById(Integer id) {
         return this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
+    }
+    public void updateById(Integer id, TodoRequest request) {
+        if (!todoDao.existsById(id)) {
+            throw new IdNotFoundException("Todo with id " + id + " not found");
+        }
+        this.todoDao.updateById(id, request);
     }
 }
