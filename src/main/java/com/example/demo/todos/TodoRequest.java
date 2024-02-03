@@ -1,0 +1,25 @@
+package com.example.demo.todos;
+
+public class TodoRequest {
+    private final String title;
+    private final String description;
+    private final boolean done;
+
+    public TodoRequest(String title, String description, boolean done) {
+        this.title = title;
+        this.description = description;
+        this.done = done;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean getDone() {
+        return done;
+    }
+}
