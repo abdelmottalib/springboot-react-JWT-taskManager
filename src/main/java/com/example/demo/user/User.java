@@ -23,7 +23,7 @@ public class User implements UserDetails {//either we implement the inteface, or
     @Id
     @GeneratedValue
     private Integer id;
-    private String username;
+    private String firstname;
     private String lastname;
     private String email;
     private String password;
