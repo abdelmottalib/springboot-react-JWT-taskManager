@@ -1,9 +1,9 @@
 package com.example.demo.todos;
 
 
-import exceptions.FieldIsEmptyException;
-import exceptions.IdNotFoundException;
-import exceptions.TitleAlreadyExistsException;
+import com.example.demo.exceptions.FieldIsEmptyException;
+import com.example.demo.exceptions.IdNotFoundException;
+import com.example.demo.exceptions.TitleAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
