@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class corsConfig {
-    @Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));  // Add your frontend URL
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setAllowedMethods(Arrays.stream(HttpMethod.values()).map(HttpMethod::name).collect(Collectors.toList()));
-        source.registerCorsConfiguration("/api/v1/**", config);  // Specify the endpoint
-        return new CorsFilter(source);
-    }
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        final CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));  // Add your frontend URL
+//        config.setAllowedHeaders(Collections.singletonList("*"));
+//        config.setAllowedMethods(Arrays.stream(HttpMethod.values()).map(HttpMethod::name).collect(Collectors.toList()));
+//        source.registerCorsConfiguration("/api/v1/**", config);  // Specify the endpoint
+//        return new CorsFilter(source);
+//    }
 
 //    @Bean
 //    public CorsFilter corsFilter() {

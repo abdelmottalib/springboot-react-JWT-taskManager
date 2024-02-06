@@ -3,7 +3,7 @@ package com.example.demo.todos;
 public class TodoRequest {
     private final String title;
     private final String description;
-    private final boolean done;
+    private final Boolean done;
 
     public TodoRequest(String title, String description, boolean done) {
         this.title = title;
@@ -19,7 +19,7 @@ public class TodoRequest {
         return description;
     }
 
-    public boolean getDone() {
+    public Boolean getDone() {
         return done;
     }
 }
