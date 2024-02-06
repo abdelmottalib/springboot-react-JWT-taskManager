@@ -17,11 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "_user")//user is a reserved word in postgresql we use table to have a different name if we dont
+//the table name will be class name
 public class User implements UserDetails {//either we implement the inteface, or extend the User Class that implement
     // the userDetails
     @Id
-    @GeneratedValue
+    @GeneratedValue//the default value is AUTO
     private Integer id;
     private String firstname;
     private String lastname;
