@@ -28,15 +28,13 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
-        System.out.println("1");
         var token = jwtService.generateToken(user);
-        System.out.println(token);
         return AuthenticationResponse.builder()
                 .token(token).build();
     }
     public  AuthenticationResponse signin(signinRequest request) {
 
-        authenticationManager.authenticate(
+        authenticationManager.authenticate(//if the username or the password are not correct it will throw an exception
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
