@@ -32,10 +32,13 @@ public class JwtService {
            UserDetails userDetails
     )
     {
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-                .signWith(getSigningKey(), SignatureAlgorithm.ES256).compact();
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Use HS256 for HMAC key
+                .compact();
     }
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
@@ -58,7 +61,7 @@ public class JwtService {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
 
-    private Key getSigningKey() {
+    private Key getSigningKey() {//the methodes expect a key object for the signing key
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }

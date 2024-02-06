@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "_user")//user is a reserved word in postgresql we use table to have a different name if we dont
 //the table name will be class name
 public class User implements UserDetails {//either we implement the inteface, or extend the User Class that implement
-    // the userDetails
+    // the userDetails, this interface is used by spring security on a lot of methods
     @Id
     @GeneratedValue//the default value is AUTO
     private Integer id;

@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 @Component
 @RequiredArgsConstructor//it will all final fields
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter will be executed once per request
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         if (authHeader == null || authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);//each filter is responsible to check for one type of authentication
             return ;
         }
         jwt = authHeader.substring(7);

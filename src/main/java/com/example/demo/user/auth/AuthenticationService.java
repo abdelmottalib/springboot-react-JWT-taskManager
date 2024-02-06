@@ -28,8 +28,9 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
-        System.out.println("hello");
+        System.out.println("1");
         var token = jwtService.generateToken(user);
+        System.out.println(token);
         return AuthenticationResponse.builder()
                 .token(token).build();
     }
