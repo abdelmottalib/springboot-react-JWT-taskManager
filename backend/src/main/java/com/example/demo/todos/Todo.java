@@ -1,6 +1,7 @@
 package com.example.demo.todos;
 
 
+import com.example.demo.user.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -30,6 +31,16 @@ public class Todo {
             nullable = false
     )
     private  boolean done;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Todo() {
     }
     public Todo(String title, String description, boolean done) {
