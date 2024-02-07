@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +19,19 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     private static final String SECRET_KEY = "314f304d5c216d5a6f2e5a575167255d532d273461565826353a325244";
+
     public String extractUsername(String token) {
-       return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
+
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
     public String generateToken(
-           Map<String, Object> extraClaims,
-           UserDetails userDetails
-    )
-    {
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
@@ -40,6 +40,7 @@ public class JwtService {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Use HS256 for HMAC key
                 .compact();
     }
+
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
@@ -57,6 +58,7 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }

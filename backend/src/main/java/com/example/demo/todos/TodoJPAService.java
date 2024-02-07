@@ -47,16 +47,8 @@ public class TodoJPAService implements TodoDao {
             todo.setTitle(request.getTitle());
             todo.setDescription(request.getDescription());
             todo.setDone(request.getDone());
-
-            // Logging to check the state before and after update
-            System.out.println("Before update - Todo ID: " + todo.getId() + ", Done: " + todo.getDone());
-
             todoRepository.save(todo);
-
-            // Logging to check the state after update
-            System.out.println("After update - Todo ID: " + todo.getId() + ", Done: " + todo.getDone());
         } else {
-            // Handle the case where the todo with the given ID is not found
             throw new EntityNotFoundException("Todo with ID " + id + " not found");
         }
     }
