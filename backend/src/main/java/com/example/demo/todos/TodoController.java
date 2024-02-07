@@ -6,16 +6,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/todos")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*")
 public class TodoController {
     private final TodoService todoService;
     TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
-    @GetMapping
-    public List<Todo> getTodos() {
-        return this.todoService.getTodos();
+    @GetMapping("{userId}/todos")
+    public List<Todo> getTodos(@PathVariable("userId") Integer userId) {
+        return this.todoService.getTodos(userId);
     }
     @GetMapping("{id}")
     public Todo findById(@PathVariable("id") Integer id) {

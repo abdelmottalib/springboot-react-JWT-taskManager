@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TodoDao {
-    List<Todo> getTodos();
+    List<Todo> getTodos(Integer userId);
     void addTodo(TodoRequest request);
 
     Boolean existsByTitle(String title);

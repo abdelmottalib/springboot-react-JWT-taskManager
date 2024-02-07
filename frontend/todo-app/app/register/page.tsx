@@ -1,8 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
+import {UserContext} from "@/app/UserProvider";
 
 const page = () => {
+    const {user, setUser} = useContext(UserContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,7 +22,8 @@ const page = () => {
                 email,
                 password,
             });
-
+            // const userInfo = await axios.get(`http://localhost:8080/users/${email}`);
+            setUser(response.data.id);
             // Assuming your backend returns a JWT token upon successful registration
             const { token } = response.data;
             localStorage.setItem('token', token);
@@ -38,7 +41,9 @@ const page = () => {
             setLastName("");
         }
     };
-
+    useEffect(() => {
+        console.log('User:', user);
+    }, [user]);
     return (
         <div>
             <h2>Register</h2>

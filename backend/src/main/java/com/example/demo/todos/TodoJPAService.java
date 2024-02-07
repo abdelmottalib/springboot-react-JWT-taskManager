@@ -14,8 +14,8 @@ public class TodoJPAService implements TodoDao {
     }
 
     @Override
-    public List<Todo> getTodos() {
-        return todoRepository.findAll();
+    public List<Todo> getTodos(Integer userId) {
+        return todoRepository.findByUserId(userId);
     }
     @Override
     public void addTodo(TodoRequest request) {

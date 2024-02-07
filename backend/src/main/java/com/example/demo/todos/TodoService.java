@@ -14,11 +14,10 @@ public class TodoService {
     TodoService(TodoJPAService todoDao) {
         this.todoDao = todoDao;
     }
-    public List<Todo> getTodos() {
-        return this.todoDao.getTodos();
+    public List<Todo> getTodos(Integer userId) {
+        return this.todoDao.getTodos(userId);
     }
         public void addTodo(TodoRequest request) {
-            System.out.println(request.getTitle() + " " + request.getDescription() + " " + request.getDone());
         if (request.getTitle() == null || request.getDescription() == null || request.getDone() == null) {
             throw new FieldIsEmptyException("Title, description, and done fields cannot be empty");
         }

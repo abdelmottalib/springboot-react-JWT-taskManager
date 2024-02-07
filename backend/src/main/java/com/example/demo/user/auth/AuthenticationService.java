@@ -30,7 +30,7 @@ public class AuthenticationService {
         repository.save(user);
         var token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(token).build();
+                .token(token).id(user.getId()).build();
     }
     public  AuthenticationResponse signin(signinRequest request) {
 
