@@ -38,7 +38,6 @@ public class TodoService {
     }
     public void updateById(Integer id, TodoRequest request) {
         if (!todoDao.existsById(id)) {
-            System.out.println("error in here hh");
             throw new IdNotFoundException("Todo with id " + id + " not found");
         }
         this.todoDao.updateById(id, request);

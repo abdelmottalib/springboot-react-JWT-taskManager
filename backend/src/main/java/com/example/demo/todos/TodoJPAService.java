@@ -18,9 +18,7 @@ public class TodoJPAService implements TodoDao {
     }
     @Override
     public void addTodo(TodoRequest request) {
-//        System.out.println("lllllllllllllllllllllllllllllllllll");
         Todo todo = new Todo(request.getTitle(), request.getDescription(), request.getDone());
-//        System.out.println("lllllllllllllllllllllllllllllllllll09890879879");
         todoRepository.save(todo);
     }
     @Override
