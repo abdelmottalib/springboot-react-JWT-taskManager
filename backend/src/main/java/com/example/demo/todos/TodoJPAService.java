@@ -1,5 +1,6 @@
 package com.example.demo.todos;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,10 +40,24 @@ public class TodoJPAService implements TodoDao {
     }
     @Override
     public void updateById(Integer id, TodoRequest request) {
-        Todo todo = todoRepository.findById(id).get();
-        todo.setTitle(request.getTitle());
-        todo.setDescription(request.getDescription());
-        todo.setDone(request.getDone());
-        todoRepository.save(todo);
+        Optional<Todo> optionalTodo = todoRepository.findById(id);
+
+        if (optionalTodo.isPresent()) {
+            Todo todo = optionalTodo.get();
+            todo.setTitle(request.getTitle());
+            todo.setDescription(request.getDescription());
+            todo.setDone(request.getDone());
+
+            // Logging to check the state before and after update
+            System.out.println("Before update - Todo ID: " + todo.getId() + ", Done: " + todo.getDone());
+
+            todoRepository.save(todo);
+
+            // Logging to check the state after update
+            System.out.println("After update - Todo ID: " + todo.getId() + ", Done: " + todo.getDone());
+        } else {
+            // Handle the case where the todo with the given ID is not found
+            throw new EntityNotFoundException("Todo with ID " + id + " not found");
+        }
     }
 }
