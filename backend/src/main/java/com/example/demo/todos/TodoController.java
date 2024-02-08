@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 @CrossOrigin(origins = "*")
 public class TodoController {
     private final TodoService todoService;
@@ -15,15 +15,17 @@ public class TodoController {
     }
     @GetMapping("{userId}/todos")
     public List<Todo> getTodos(@PathVariable("userId") Integer userId) {
+        System.out.println("from controller in todo");
         return this.todoService.getTodos(userId);
     }
     @GetMapping("{id}")
     public Todo findById(@PathVariable("id") Integer id) {
         return this.todoService.findById(id);
     }
-    @PostMapping
-    public void addTodo(@RequestBody TodoRequest request) {
-        this.todoService.addTodo(request);
+    @PostMapping("{userId}/todos")
+    public void addTodo(@PathVariable("userId") Integer userId,@RequestBody TodoRequest request) {
+        System.out.println("from controller in todo1");
+        this.todoService.addTodo(userId, request);
     }
     @PutMapping("{id}")
     public void updateById(@PathVariable("id") Integer id, @RequestBody TodoRequest request) {

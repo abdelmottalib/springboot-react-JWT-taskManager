@@ -1,16 +1,16 @@
 package com.example.demo.user;
 
-
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final UserDao userDao;
-    UserService(UserDao userDao) {
-        this.userDao = userDao;
+    private final UserJPAService userJPAService;
+
+    public UserService(UserJPAService userJPAService) {
+        this.userJPAService =  userJPAService;
     }
-    public User findById(String email) {
-        System.out.println("service email: " + email);
-        return this.userDao.findById(email);
+
+    public User getUser(Integer userId) {
+        return userJPAService.getUser(userId);
     }
 }

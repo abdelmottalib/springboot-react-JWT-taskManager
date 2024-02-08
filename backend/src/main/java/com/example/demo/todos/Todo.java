@@ -48,6 +48,12 @@ public class Todo {
         this.description = description;
         this.done = done;
     }
+    public Todo(String title, String description, boolean done, User user) {
+        this.title = title;
+        this.description = description;
+        this.done = done;
+        this.user = user;
+    }
     public Integer getId() {
         return id;
     }

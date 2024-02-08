@@ -17,14 +17,17 @@ public class TodoService {
     public List<Todo> getTodos(Integer userId) {
         return this.todoDao.getTodos(userId);
     }
-        public void addTodo(TodoRequest request) {
+        public void addTodo(Integer userId, TodoRequest request) {
         if (request.getTitle() == null || request.getDescription() == null || request.getDone() == null) {
+            System.out.println("from exception 1");
             throw new FieldIsEmptyException("Title, description, and done fields cannot be empty");
         }
         if (todoDao.existsByTitle(request.getTitle())) {
+            System.out.println("from exception 2");
             throw new TitleAlreadyExistsException(request.getTitle() + " already exists");
         }
-        this.todoDao.addTodo(request);
+            System.out.println("from service in todo");
+        this.todoDao.addTodo(userId ,request);
     }
     public void deleteById(Integer id) {
         if (!todoDao.existsById(id)) {
