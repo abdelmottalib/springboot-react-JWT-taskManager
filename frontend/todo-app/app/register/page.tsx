@@ -1,16 +1,21 @@
 'use client';
 import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
-import {UserContext} from "@/app/UserProvider";
+import {useUserContext} from "@/app/UserProvider";
+import {useAtom} from "jotai";
+
+import {userAtom} from "@/app/atoms";
+import {useRouter} from "next/navigation";
 
 const page = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user, setUser} = useUserContext();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [id, setId] = useAtom(userAtom);
+    const router = useRouter();
     const handleRegister = async () => {
         try {
             setLoading(true);
@@ -23,10 +28,13 @@ const page = () => {
                 password,
             });
             // const userInfo = await axios.get(`http://localhost:8080/users/${email}`);
-            setUser(response.data.id);
             // Assuming your backend returns a JWT token upon successful registration
             const { token } = response.data;
             localStorage.setItem('token', token);
+            router.push({
+                pathname: '/',
+                query: { id: response.data.id }
+            });
             // Handle the token (e.g., store it in local storage)
             // ...
 
@@ -42,8 +50,8 @@ const page = () => {
         }
     };
     useEffect(() => {
-        console.log('User:', user);
-    }, [user]);
+        console.log('User:', id);
+    }, [id]);
     return (
         <div>
             <h2>Register</h2>

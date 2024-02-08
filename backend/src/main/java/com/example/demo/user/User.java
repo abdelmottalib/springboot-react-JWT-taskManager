@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.todos.Todo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class User implements UserDetails {//either we implement the interface, o
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")  // Add this annotation to break the cycle
     private List<Todo> todos;
 
     @Enumerated(EnumType.STRING)//treat this as Enum

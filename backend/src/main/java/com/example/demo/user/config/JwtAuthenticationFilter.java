@@ -27,7 +27,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+        System.out.println("the jwt is:");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("the jwt is null");
             filterChain.doFilter(request, response);//each filter is responsible to check for one type of authentication
             return ;
         }
