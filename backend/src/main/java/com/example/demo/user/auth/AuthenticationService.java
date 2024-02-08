@@ -33,15 +33,15 @@ public class AuthenticationService {
                 .token(token).id(user.getId()).build();
     }
     public  AuthenticationResponse signin(signinRequest request) {
-
+        System.out.println("from signin");
+        System.out.println("the email is:"+request.getEmail());
+        System.out.println("the password is:"+request.getPassword());
         authenticationManager.authenticate(//if the username or the password are not correct it will throw an exception
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
          var token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(token)
-                .build();
-
+                .token(token).id(user.getId()).build();
     }
 }

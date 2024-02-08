@@ -10,5 +10,6 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>{
 
     @Override
     boolean existsById(@NonNull Integer integer);
+    boolean existsByUserId(Integer userId);
     List<Todo> findByUserId(Integer userId);
 }

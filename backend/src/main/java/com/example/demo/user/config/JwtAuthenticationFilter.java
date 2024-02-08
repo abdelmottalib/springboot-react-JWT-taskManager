@@ -30,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
         System.out.println("the jwt is:");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("the jwt is null");
+
             filterChain.doFilter(request, response);//each filter is responsible to check for one type of authentication
             return ;
         }

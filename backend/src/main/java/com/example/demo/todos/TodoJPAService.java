@@ -36,6 +36,10 @@ public class TodoJPAService implements TodoDao {
         return todoRepository.existsByTitle(title);
     }
     @Override
+    public Boolean existsByUserId(Integer userId) {
+        return todoRepository.existsByUserId(userId);
+    }
+    @Override
     public void deleteById(Integer id) {
         todoRepository.deleteById(id);
     }

@@ -11,6 +11,7 @@ public interface TodoDao {
     Boolean existsByTitle(String title);
     void deleteById(Integer id);
     Boolean existsById(Integer id);
+    Boolean existsByUserId(Integer userId);
     Optional<Todo> findById(Integer id);
     void updateById(Integer id, TodoRequest request);
 }

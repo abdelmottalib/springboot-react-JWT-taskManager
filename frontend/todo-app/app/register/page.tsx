@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useUserContext} from "@/app/UserProvider";
 import {useAtom} from "jotai";
+import '../globals.css';
 
 import {userAtom} from "@/app/atoms";
 import {useRouter} from "next/navigation";
@@ -31,10 +32,8 @@ const page = () => {
             // Assuming your backend returns a JWT token upon successful registration
             const { token } = response.data;
             localStorage.setItem('token', token);
-            router.push({
-                pathname: '/',
-                query: { id: response.data.id }
-            });
+            setUser(response.data.id);
+            router.push('/');
             // Handle the token (e.g., store it in local storage)
             // ...
 
