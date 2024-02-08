@@ -52,6 +52,7 @@ const page = () => {
             setUser(response.data.id);
             router.push('/');
         } catch (error) {
+
             console.error('Sign In failed:', error);
         }
     }
