@@ -30,8 +30,10 @@ const page = () => {
     useEffect(() => {
         const check = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/users/1', axiosConfig);
-                router.push('/');
+                if (getAuthToken() !== null) {
+                    const response = await axios.get('http://localhost:8080/users/1', axiosConfig);
+                    router.push('/');
+                }
             } catch (error) {
             }
         }
@@ -57,28 +59,40 @@ const page = () => {
         }
     }
     return (
-        <div>
-            <h2>Sign In</h2>
-            <form onSubmit={handleSignIn}>
+        <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+            <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+            <form onSubmit={handleSignIn} className="space-y-4">
                 <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                    <label className="block text-sm font-medium text-gray-600">
+                        Email:
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="mt-1 p-2 w-full border rounded-md"
+                        />
+                    </label>
                 </div>
                 <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <label className="block text-sm font-medium text-gray-600">
+                        Password:
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="mt-1 p-2 w-full border rounded-md"
+                        />
+                    </label>
                 </div>
-                <button type="submit" onClick={handleSubmit}>Sign In</button>
+                <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                >
+                    Sign In
+                </button>
             </form>
         </div>
     );

@@ -52,34 +52,63 @@ const page = () => {
         console.log('User:', id);
     }, [id]);
     return (
-        <div>
-            <h2>Register</h2>
-            <div>
-                <label>
+        <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+            <h2 className="text-2xl font-bold mb-4">Register</h2>
+
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600">
                     First Name:
-                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <input
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="mt-1 p-2 w-full border rounded-md"
+                    />
                 </label>
             </div>
-            <div>
-                <label>
+
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600">
                     Last Name:
-                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <input
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="mt-1 p-2 w-full border rounded-md"
+                    />
                 </label>
             </div>
-            <div>
-                <label>
+
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600">
                     Email:
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 p-2 w-full border rounded-md"
+                    />
                 </label>
             </div>
-            <div>
-                <label>
+
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600">
                     Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="mt-1 p-2 w-full border rounded-md"
+                    />
                 </label>
             </div>
+
             <div>
-                <button onClick={handleRegister} disabled={loading}>
+                <button
+                    onClick={handleRegister}
+                    disabled={loading}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                >
                     {loading ? 'Registering...' : 'Register'}
                 </button>
             </div>
