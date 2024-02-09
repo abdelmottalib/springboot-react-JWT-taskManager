@@ -105,7 +105,9 @@ const TodoApp = () => {
 
     const removeTodo = async (id: number) => {
         try {
-            await axios.delete(`http://localhost:8080/api/v1/todos/${id}`);
+            console.log("token in delete" + getAuthToken())
+            await axios.delete(`http://localhost:8080/users/todos/${id}`, axiosConfig);
+            console.log("deleted")
             fetchTodos();
         } catch (error) {
             console.error('Error removing todo:', error);

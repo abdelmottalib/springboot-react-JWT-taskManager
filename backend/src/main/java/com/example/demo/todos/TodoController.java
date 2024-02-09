@@ -31,8 +31,9 @@ public class TodoController {
 //    public void updateById(@PathVariable("id") Integer id, @RequestBody TodoRequest request) {
 //        this.todoService.updateById(id, request);
 //    }
-//    @DeleteMapping("{id}")
-//    public void deleteById(@PathVariable("id") Integer id) {
-//        this.todoService.deleteById(id);
-//    }
+    @DeleteMapping("todos/{id}")
+    public void deleteById(@PathVariable("id") Integer id) {
+        System.out.println("from controller in deleteById");
+        this.todoService.deleteById(id);
+    }
 }
