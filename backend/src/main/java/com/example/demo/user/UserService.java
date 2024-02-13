@@ -13,4 +13,7 @@ public class UserService {
     public User getUser(Integer userId) {
         return userJPAService.getUser(userId);
     }
+    public User getUserByEmail(String email) {
+        return userJPAService.getUserByEmail(email);
+    }
 }

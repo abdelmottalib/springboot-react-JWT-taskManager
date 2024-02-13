@@ -11,8 +11,8 @@ const page = () => {
         localStorage.removeItem('token');
 
         // Redirect to the home page
-        router.push('/');
-    }, [history]);
+        router.push('/register');
+    }, []);
 
     return (
         <div className={'h-screen w-screen flex items-center justify-center'}>

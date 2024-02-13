@@ -1,39 +1,43 @@
 package com.example.demo.todos;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/api/todos")
 @CrossOrigin(origins = "*")
 public class TodoController {
     private final TodoService todoService;
     TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
-    @GetMapping("{userId}/todos")
-    public List<Todo> getTodos(@PathVariable("userId") Integer userId) {
-        System.out.println("from controller in getTodos");
-        return this.todoService.getTodos(userId);
+    @GetMapping
+    public List<Todo> getTodos(@AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println("the user name is " + userDetails.getUsername());
+        return this.todoService.getTodos(userDetails.getUsername());
     }
 //    @GetMapping("{id}")
 //    public Todo findById(@PathVariable("id") Integer id) {
 //        return this.todoService.findById(id);
 //    }
-    @PostMapping("{userId}/todos")
-    public void addTodo(@PathVariable("userId") Integer userId,@RequestBody TodoRequest request) {
+    @PostMapping
+    public void addTodo(@AuthenticationPrincipal UserDetails userDetails,@RequestBody TodoRequest request) {
         System.out.println("from controller in todo1");
-        this.todoService.addTodo(userId, request);
+        System.out.println("the username is " + userDetails.getUsername());
+        this.todoService.addTodo(userDetails.getUsername(), request);
     }
-//    @PutMapping("{id}")
-//    public void updateById(@PathVariable("id") Integer id, @RequestBody TodoRequest request) {
-//        this.todoService.updateById(id, request);
-//    }
-    @DeleteMapping("todos/{id}")
-    public void deleteById(@PathVariable("id") Integer id) {
+    @PutMapping("todos/{id}")
+    public void updateById(@PathVariable("id") Integer id, @RequestBody TodoRequest request) {
+        System.out.println("from controller in updateById");
+        this.todoService.updateById(id, request);
+    }
+    @DeleteMapping("{id}")
+    public void deleteById(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable("id") Integer id) {
         System.out.println("from controller in deleteById");
-        this.todoService.deleteById(id);
+        this.todoService.deleteById(userDetails.getUsername(), id);
     }
 }

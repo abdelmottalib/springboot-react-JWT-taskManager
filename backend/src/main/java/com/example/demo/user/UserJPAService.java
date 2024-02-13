@@ -14,4 +14,7 @@ public class UserJPAService {
     public User getUser(Integer userId) {
         return userRepository.findById(userId).orElse(null);
     }
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
 }

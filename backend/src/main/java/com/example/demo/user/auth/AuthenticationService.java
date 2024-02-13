@@ -29,8 +29,10 @@ public class AuthenticationService {
                 .build();
         repository.save(user);
         var token = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        AuthenticationResponse build = AuthenticationResponse.builder()
                 .token(token).id(user.getId()).build();
+        System.out.println("the token sent by register is:"+token);
+        return build;
     }
     public  AuthenticationResponse signin(signinRequest request) {
         System.out.println("from signin");

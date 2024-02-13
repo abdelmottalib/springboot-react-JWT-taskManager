@@ -34,12 +34,13 @@ const TodoApp = () => {
     const fetchTodos = async () => {
         try {
             console.log('fetching todos1');
+            console.log("the token when fetching is " + axiosConfig)
             console.log('user in home page:', user);
             if (!getAuthToken()) {
                 router.push('/register');
             }
 
-            const response = await axios.get(`http://localhost:8080/users/${user != null ? user : '1'}/todos`, axiosConfig);
+            const response = await axios.get(`http://localhost:8080/api/todos`, axiosConfig);
             console.log('fetching todos2');
 
             // Ensure response.data is an array before sorting
@@ -67,7 +68,7 @@ const TodoApp = () => {
         if (newDescription.trim() !== '') {
             try {
                 console.log("clicked");
-                await axios.post(`http://localhost:8080/users/${user}/todos`, {
+                await axios.post(`http://localhost:8080/api/todos`, {
                     title: newTitle,
                     description: newDescription,
                     done: false
@@ -91,7 +92,7 @@ const TodoApp = () => {
     const toggleTodo = async (id: number) => {
         try {
             // const response = await fetchTodo(id);
-            const response = await axios.get(`http://localhost:8080/api/v1/todos/${id}`);
+            const response = await axios.get(`http://localhost:8080/users/todos/${id}`, axiosConfig);
             console.log('response:', response);
             await axios.put(`http://localhost:8080/api/v1/todos/${id}`, {
                 title: response.data.title,
@@ -106,7 +107,7 @@ const TodoApp = () => {
     const removeTodo = async (id: number) => {
         try {
             console.log("token in delete" + getAuthToken())
-            await axios.delete(`http://localhost:8080/users/todos/${id}`, axiosConfig);
+            await axios.delete(`http://localhost:8080/api/todos/${id}`, axiosConfig);
             console.log("deleted")
             fetchTodos();
         } catch (error) {
