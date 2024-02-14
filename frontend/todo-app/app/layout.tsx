@@ -2,8 +2,9 @@ import {base} from "next/dist/build/webpack/config/blocks/base";
 
 
 // components/RootLayout.js
-import { UserProvider } from "@/app/UserProvider";
+import { TokenProvider } from "@/app/tokenProvider";
 import Link from 'next/link';
+import React from "react";
 
 
 const Navbar = () => {
@@ -38,10 +39,10 @@ export default function RootLayout({
     return (
         <html lang="en">
         <body>
-        <UserProvider>
+        <TokenProvider>
             <Navbar/>
             <div className="container mx-auto p-4">{children}</div>
-        </UserProvider>
+        </TokenProvider>
         </body>
         </html>
     );

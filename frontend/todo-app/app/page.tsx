@@ -2,11 +2,11 @@
 import {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import {useRouter} from "next/navigation";
-// import {UserContext, useUserContext} from "@/app/UserProvider";
+// import {UserContext, useUserContext} from "@/app/TokenProvider";
 import {useAtom} from "jotai";
 import './globals.css';
 import {userAtom} from "@/app/atoms";
-import {useUserContext} from "@/app/UserProvider";
+import {useTokenContext} from "@/app/tokenProvider";
 interface todo {
     id: number;
     title: string;
@@ -14,28 +14,29 @@ interface todo {
     done: boolean;
 }
 
-const getAuthToken = () => {
-    return localStorage.getItem('token');
-};
-
-const axiosConfig = !getAuthToken() ? {} : {
-    headers: {
-        Authorization: `Bearer ${getAuthToken()}`
-    },
-};
 
 const TodoApp = () => {
+    const {token, setToken} = useTokenContext();
+    const getAuthToken = () => {
+        return token;
+    };
+
+    const axiosConfig = !getAuthToken() ? {} : {
+        headers: {
+            Authorization: `Bearer ${getAuthToken()}`
+        },
+    };
+
     const router = useRouter();
     const [todos, setTodos] = useState<todo[]>([]);
     const [newDescription, setNewDescription] = useState('');
     const [newTitle, setNewTitle] = useState('');
     const [idd, setIdd] = useAtom(userAtom);
-    const {user, setUser} = useUserContext();
     const fetchTodos = async () => {
         try {
+            console.log("the user is " + token);
             console.log('fetching todos1');
             console.log("the token when fetching is " + axiosConfig)
-            console.log('user in home page:', user);
             if (!getAuthToken()) {
                 router.push('/register');
             }
@@ -57,9 +58,7 @@ const TodoApp = () => {
         }
     };
 
-    useEffect(() => {
-        console.log('User:', user);
-    }, [user]);
+
     useEffect(() => {
             fetchTodos();
             console.log(getAuthToken());

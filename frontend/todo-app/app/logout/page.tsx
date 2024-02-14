@@ -2,14 +2,15 @@
 import React, { useEffect } from 'react';
 
 import {useRouter} from 'next/navigation';
+import {useTokenContext} from "@/app/tokenProvider";
 
 const page = () => {
     const router = useRouter();
-
+    const {token, setToken} = useTokenContext();
     useEffect(() => {
         // Remove the token from local storage
-        localStorage.removeItem('token');
 
+        setToken(null);
         // Redirect to the home page
         router.push('/register');
     }, []);
