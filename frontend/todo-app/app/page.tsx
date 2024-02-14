@@ -39,7 +39,7 @@ const TodoApp = () => {
             if (!getAuthToken()) {
                 router.push('/register');
             }
-
+            console.log("the token axiosConfig: " + getAuthToken())
             const response = await axios.get(`http://localhost:8080/api/todos`, axiosConfig);
             console.log('fetching todos2');
 

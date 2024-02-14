@@ -29,13 +29,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
         final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("the jwt is null");
-            SecurityContextHolder.clearContext();
+//            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);//each filter is responsible to check for one type of authentication
             return ;
         }
-        System.out.println("the jwt is:" + authHeader);
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
+        System.out.println("the jwt is extracted from the header: " + jwt);
         System.out.println("the name is extracted from the jwt: " + userEmail);
         //check if the user is already authenticated
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
