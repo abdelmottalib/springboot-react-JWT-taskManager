@@ -7,6 +7,8 @@ import '../globals.css';
 
 
 const page = () => {
+    const [passwordError, setPasswordError] = useState(false)
+    const [emailError, setEmailError] = useState(false)
     const {token, setToken} =useTokenContext();
     const getAuthToken = () => {
         return token;
@@ -53,9 +55,16 @@ const page = () => {
             console.log('response.data.id', response.data.id);
             setToken(token);
             router.push('/');
-        } catch (error) {
-
-            console.error('Sign In failed:', error);
+        } catch (error:any) {
+            if (error.response && error.response.status === 404) {
+                // Display user-friendly error message about email being in use
+                setEmailError(true)
+                console.log("email doesnt exist")  // Replace with a real alert mechanism
+            } else if (error.response && error.response.status === 401) {
+                setPasswordError(true)
+                // Handle other kinds of errors (network issues, etc.)
+                console.log("password is incorrect");
+            }
         }
     }
     return (
@@ -74,6 +83,8 @@ const page = () => {
                         />
                     </label>
                 </div>
+                {emailError && <p className="text-red-500 text-sm">Email does not exist</p>}
+
                 <div>
                     <label className="block text-sm font-medium text-gray-600">
                         Password:
@@ -86,6 +97,7 @@ const page = () => {
                         />
                     </label>
                 </div>
+                {passwordError && <p className="text-red-500 text-sm">Password is incorrect</p>}
                 <button
                     type="submit"
                     onClick={handleSubmit}

@@ -15,6 +15,7 @@ const page = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [emailError, setEmailError] = useState(false);
     const [id, setId] = useAtom(userAtom);
     const router = useRouter();
     const handleRegister = async () => {
@@ -41,6 +42,7 @@ const page = () => {
         } catch (error:any) {
             if (error.response && error.response.status === 409) {
                 // Display user-friendly error message about email being in use
+                setEmailError(true)
                 console.log("email is already in use")  // Replace with a real alert mechanism
             } else {
                 // Handle other kinds of errors (network issues, etc.)
@@ -48,10 +50,10 @@ const page = () => {
             }
         } finally {
             setLoading(false);
-            setEmail("");
-            setPassword("");
-            setFirstName("");
-            setLastName("");
+            // setEmail("");
+            // setPassword("");
+            // setFirstName("");
+            // setLastName("");
         }
     };
     useEffect(() => {
@@ -95,6 +97,7 @@ const page = () => {
                         className="mt-1 p-2 w-full border rounded-md"
                     />
                 </label>
+                {emailError && <p className="text-red-500 text-xs mt-1">Email is already in use</p>}
             </div>
 
             <div className="mb-4">

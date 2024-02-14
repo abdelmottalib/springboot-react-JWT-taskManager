@@ -2,6 +2,8 @@ package com.example.demo.user.auth;
 
 
 import com.example.demo.exceptions.EmailAlreadyExistsException;
+import com.example.demo.exceptions.PasswordDoesntMatchError;
+import com.example.demo.exceptions.EmailDoesntExistError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,15 @@ public class AuthenticationController {
     }
     @PostMapping("/signin")
     public ResponseEntity<AuthenticationResponse> signin(@RequestBody signinRequest request) {
-        return ResponseEntity.ok(authenticationService.signin(request));
+        try {
+            return ResponseEntity.ok(authenticationService.signin(request));
+        }
+        catch(PasswordDoesntMatchError e){
+            return ResponseEntity.status(401).build();
+        }
+        catch(EmailDoesntExistError e){
+            return ResponseEntity.status(404).build();
+        }
         //
     }
 }

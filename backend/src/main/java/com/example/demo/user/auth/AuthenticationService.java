@@ -2,6 +2,8 @@ package com.example.demo.user.auth;
 
 
 import com.example.demo.exceptions.EmailAlreadyExistsException;
+import com.example.demo.exceptions.EmailDoesntExistError;
+import com.example.demo.exceptions.PasswordDoesntMatchError;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
 import com.example.demo.user.UserJPAService;
@@ -38,7 +40,7 @@ public class AuthenticationService {
         repository.save(user);
         var token = jwtService.generateToken(user);
         AuthenticationResponse build = AuthenticationResponse.builder()
-                .token(token).id(user.getId()).build();
+                .token(token).build();
         System.out.println("the token sent by register is:"+token);
         return build;
     }
@@ -46,12 +48,21 @@ public class AuthenticationService {
         System.out.println("from signin");
         System.out.println("the email is:"+request.getEmail());
         System.out.println("the password is:"+request.getPassword());
+        if (!userService.existsByEmail(request.getEmail())) {
+            System.out.println("the email is in the database " + request.getEmail());
+            System.out.println("email doesnt exist");
+            throw new EmailDoesntExistError();
+        }
+        User user = repository.findByEmail(request.getEmail()).orElseThrow();
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            System.out.println("password doesnt match");
+            throw new PasswordDoesntMatchError();
+        }
         authenticationManager.authenticate(//if the username or the password are not correct it will throw an exception
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        var user = repository.findByEmail(request.getEmail()).orElseThrow();
          var token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(token).id(user.getId()).build();
+                .token(token).build();
     }
 }
