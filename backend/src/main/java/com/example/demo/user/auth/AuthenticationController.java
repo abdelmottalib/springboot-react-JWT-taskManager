@@ -6,6 +6,8 @@ import com.example.demo.exceptions.PasswordDoesntMatchError;
 import com.example.demo.exceptions.EmailDoesntExistError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,5 +36,11 @@ public class AuthenticationController {
             return ResponseEntity.status(404).build();
         }
         //
+    }
+    @DeleteMapping("/signout")
+    public void logout(@AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println("**********************************************");
+        System.out.println("the user is: " + userDetails.getUsername());
+        authenticationService.logout(userDetails.getUsername());
     }
 }

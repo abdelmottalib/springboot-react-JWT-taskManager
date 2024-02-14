@@ -91,12 +91,12 @@ const TodoApp = () => {
     const toggleTodo = async (id: number) => {
         try {
             // const response = await fetchTodo(id);
-            const response = await axios.get(`http://localhost:8080/users/todos/${id}`, axiosConfig);
+            const response = await axios.get(`http://localhost:8080/api/todos/${id}`, axiosConfig);
             console.log('response:', response);
-            await axios.put(`http://localhost:8080/api/v1/todos/${id}`, {
+            await axios.put(`http://localhost:8080/api/todos/${id}`, {
                 title: response.data.title,
                 description: response.data.description, done: !response.data.done
-            });
+            }, axiosConfig);
             fetchTodos();
         } catch (error) {
             console.error('Error toggling todo:', error);

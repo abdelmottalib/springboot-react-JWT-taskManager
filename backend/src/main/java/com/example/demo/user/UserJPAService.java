@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,5 +20,11 @@ public class UserJPAService {
     }
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    public void deleteUser(String email) {
+        System.out.println("reached the serviceJPA");
+        userRepository.deleteByEmail(email);
     }
 }

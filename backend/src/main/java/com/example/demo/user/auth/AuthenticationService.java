@@ -23,10 +23,10 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final UserJPAService userService;
+    private final UserJPAService userJPAService;
 
     public AuthenticationResponse register(registerRequest request) {
-        if (userService.existsByEmail(request.getEmail())) {
+        if (userJPAService.existsByEmail(request.getEmail())) {
             System.out.println("Email already exists");
             throw new EmailAlreadyExistsException();
         }
@@ -48,7 +48,7 @@ public class AuthenticationService {
         System.out.println("from signin");
         System.out.println("the email is:"+request.getEmail());
         System.out.println("the password is:"+request.getPassword());
-        if (!userService.existsByEmail(request.getEmail())) {
+        if (!userJPAService.existsByEmail(request.getEmail())) {
             System.out.println("the email is in the database " + request.getEmail());
             System.out.println("email doesnt exist");
             throw new EmailDoesntExistError();
@@ -64,5 +64,9 @@ public class AuthenticationService {
          var token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(token).build();
+    }
+    public void logout(String email) {
+        System.out.println("reached the service");
+        this.userJPAService.deleteUser(email);
     }
 }

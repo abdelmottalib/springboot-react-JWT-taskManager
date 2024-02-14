@@ -20,20 +20,20 @@ public class TodoController {
         System.out.println("the user name is " + userDetails.getUsername());
         return this.todoService.getTodos(userDetails.getUsername());
     }
-//    @GetMapping("{id}")
-//    public Todo findById(@PathVariable("id") Integer id) {
-//        return this.todoService.findById(id);
-//    }
+    @GetMapping("{id}")
+    public Todo findById(@AuthenticationPrincipal UserDetails userDetails,@PathVariable("id") Integer id) {
+        return this.todoService.findById(userDetails.getUsername() ,id);
+    }
     @PostMapping
     public void addTodo(@AuthenticationPrincipal UserDetails userDetails,@RequestBody TodoRequest request) {
         System.out.println("from controller in todo1");
         System.out.println("the username is " + userDetails.getUsername());
         this.todoService.addTodo(userDetails.getUsername(), request);
     }
-    @PutMapping("todos/{id}")
-    public void updateById(@PathVariable("id") Integer id, @RequestBody TodoRequest request) {
+    @PutMapping("{id}")
+    public void updateById(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("id") Integer id, @RequestBody TodoRequest request) {
         System.out.println("from controller in updateById");
-        this.todoService.updateById(id, request);
+        this.todoService.updateById(userDetails.getUsername(), id, request);
     }
     @DeleteMapping("{id}")
     public void deleteById(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable("id") Integer id) {

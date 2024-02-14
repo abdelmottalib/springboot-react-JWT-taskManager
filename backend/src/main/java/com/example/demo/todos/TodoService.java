@@ -42,12 +42,22 @@ public class TodoService {
         }
         this.todoDao.deleteById(id);
     }
-    public Todo findById(Integer id) {
-        return this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
+    public Todo findById(String email, Integer id) {
+        User user = userService.getUserByEmail(email);
+        Todo todo = this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
+        if (!Objects.equals(todo.getUser().getId(), user.getId())) {
+            System.out.println("this is not your todo");
+            throw new IdNotFoundException("this is not your todo");
+        }
+        return todo;
     }
-    public void updateById(Integer id, TodoRequest request) {
-        if (!todoDao.existsById(id)) {
-            throw new IdNotFoundException("Todo with id " + id + " not found");
+    public void updateById(String email, Integer id, TodoRequest request) {
+        System.out.println("from service in updateById");
+        User user = userService.getUserByEmail(email);
+        Todo todo = this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
+        if (!Objects.equals(todo.getUser().getId(), user.getId())) {
+            System.out.println("this is not your todo");
+            throw new IdNotFoundException("this is not your todo");
         }
         this.todoDao.updateById(id, request);
     }
