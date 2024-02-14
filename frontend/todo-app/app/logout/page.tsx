@@ -29,6 +29,7 @@ const page = () => {
         router.push('/register');
     }, []);
 
+
     return (
         <div className={'h-screen w-screen flex items-center justify-center'}>
             <p>Logging out...</p>
