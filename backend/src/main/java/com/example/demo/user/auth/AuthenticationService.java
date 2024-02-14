@@ -1,8 +1,10 @@
 package com.example.demo.user.auth;
 
 
+import com.example.demo.exceptions.EmailAlreadyExistsException;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
+import com.example.demo.user.UserJPAService;
 import com.example.demo.user.UserRepository;
 import com.example.demo.user.config.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,13 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final UserJPAService userService;
+
     public AuthenticationResponse register(registerRequest request) {
+        if (userService.existsByEmail(request.getEmail())) {
+            System.out.println("Email already exists");
+            throw new EmailAlreadyExistsException();
+        }
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())

@@ -38,8 +38,14 @@ const page = () => {
             // ...
 
             // Notify parent component about successful registration
-        } catch (error) {
-            console.error('Registration failed:', error);
+        } catch (error:any) {
+            if (error.response && error.response.status === 409) {
+                // Display user-friendly error message about email being in use
+                console.log("email is already in use")  // Replace with a real alert mechanism
+            } else {
+                // Handle other kinds of errors (network issues, etc.)
+                console.error('Registration failed:', error);
+            }
         } finally {
             setLoading(false);
             setEmail("");
