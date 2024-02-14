@@ -24,6 +24,7 @@ public class TodoService {
         User user = userService.getUserByEmail(email);
         return this.todoDao.getTodos(user.getId());
     }
+
         public void addTodo(String email, TodoRequest request) {
         if (request.getTitle() == null || request.getDescription() == null || request.getDone() == null) {
             System.out.println("from exception 1");
