@@ -10,7 +10,7 @@ const page = () => {
 
     const {token, setToken} =useTokenContext();
     const getAuthToken = () => {
-        return token;
+        return Cookies.get('jwt');
     };
 
     const axiosConfig = !getAuthToken() ? {} : {
@@ -22,9 +22,9 @@ const page = () => {
     useEffect(() => {
         // Remove the token from local storage
         console.log('the token in signout is ' + getAuthToken())
-        // if (getAuthToken() !== null) {
-        //     axios.delete('http://localhost:8080/api/v1/auth/signout', axiosConfig)
-        // }
+        if (getAuthToken() !== null) {
+            axios.delete('http://localhost:8080/api/v1/auth/signout', axiosConfig)
+        }
         // setToken(null);
         Cookies.remove('jwt');
         // Redirect to the home page

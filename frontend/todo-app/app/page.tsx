@@ -56,7 +56,8 @@ const TodoApp = () => {
                 console.log('empty');
             }
         } catch (error) {
-            console.error('Error fetching todos:', error);
+            // @ts-ignore
+            console.error('Error fetching todos:', error.response.data);
             router.push('/register');
         }
     };

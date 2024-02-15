@@ -1,6 +1,7 @@
 package com.example.demo.user.config;
 
 
+import com.example.demo.user.auth.BlackListTokens;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -29,6 +30,7 @@ import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter will be executed once per request
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final BlackListTokens blackListTokens;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -43,6 +45,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
         }
         try {
             jwt = authHeader.substring(7);
+            blackListTokens.printBlackList();
+            if (blackListTokens.isTokenInBlackList(jwt)) {
+                System.out.println("the jwt is blacklisted");
+                response.setStatus(SC_UNAUTHORIZED);
+                response.getWriter().write("Access token blacklisted");
+                return;
+            }
             userEmail = jwtService.extractUsername(jwt);
             System.out.println("the jwt is extracted from the header: " + jwt);
             System.out.println("the name is extracted from the jwt: " + userEmail);

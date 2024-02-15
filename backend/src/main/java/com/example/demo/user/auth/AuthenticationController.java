@@ -4,6 +4,7 @@ package com.example.demo.user.auth;
 import com.example.demo.exceptions.EmailAlreadyExistsException;
 import com.example.demo.exceptions.PasswordDoesntMatchError;
 import com.example.demo.exceptions.EmailDoesntExistError;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final BlackListTokens blackListTokens;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody registerRequest request) {
         try {
@@ -38,9 +40,10 @@ public class AuthenticationController {
         //
     }
     @DeleteMapping("/signout")
-    public void logout(@AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("**********************************************");
-        System.out.println("the user is: " + userDetails.getUsername());
-        authenticationService.logout(userDetails.getUsername());
+    public void signout(HttpServletRequest request){
+        final String authHeader = request.getHeader("Authorization");
+        String jwt = authHeader.substring(7);
+        System.out.println("the jwt in the controller :"+jwt);
+        blackListTokens.addToken(jwt);
     }
 }
