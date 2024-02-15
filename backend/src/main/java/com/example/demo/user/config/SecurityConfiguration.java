@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.example.demo.user.config.ApplicationConfig;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
@@ -21,7 +23,9 @@ import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final ExceptionFilter ExceptionFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,17 +35,10 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless session creation policy
                 )
-                .exceptionHandling(
-                        exceptionHandling -> exceptionHandling
-                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                                    response.setStatus(SC_FORBIDDEN);
-                                    response.setContentType("application/json");
-                                    String jsonResponse = "{\"message\": \"You must be registered and logged in to access this resource\"}";
-                                    response.getWriter().write(jsonResponse);
-                                })
-                )
+                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(authenticationEntryPoint))
                 .authenticationProvider(authenticationProvider) // Add custom authentication provider
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT authentication filter before default username password filter
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//                .addFilterBefore(ExceptionFilter, jwtAuthFilter.getClass());
         return http.build();
     }
 }
