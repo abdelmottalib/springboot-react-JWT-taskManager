@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import {useRouter} from 'next/navigation';
 import {useTokenContext} from "@/app/tokenProvider";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const page = () => {
 
@@ -24,7 +25,8 @@ const page = () => {
         // if (getAuthToken() !== null) {
         //     axios.delete('http://localhost:8080/api/v1/auth/signout', axiosConfig)
         // }
-        setToken(null);
+        // setToken(null);
+        Cookies.remove('jwt');
         // Redirect to the home page
         router.push('/register');
     }, []);

@@ -4,6 +4,7 @@ import axios from "axios";
 import {useRouter} from "next/navigation";
 import {useTokenContext} from "@/app/tokenProvider";
 import '../globals.css';
+import Cookies from "js-cookie";
 
 
 const page = () => {
@@ -11,7 +12,7 @@ const page = () => {
     const [emailError, setEmailError] = useState(false)
     const {token, setToken} =useTokenContext();
     const getAuthToken = () => {
-        return token;
+        return Cookies.get('jwt');
     };
 
     const axiosConfig = !getAuthToken() ? {} : {
@@ -53,7 +54,13 @@ const page = () => {
             const { token } = response.data;
             console.log('token', token);
             console.log('response.data.id', response.data.id);
-            setToken(token);
+            // setToken(token);
+            Cookies.set('jwt', token, {
+                expires: 7, // Optional: Set expiration in days
+                // httpOnly: true, // Important for security
+                secure: true,  // Use in production (with HTTPS)
+                sameSite: 'strict' // Can help mitigate CSRF
+            });
             router.push('/');
         } catch (error:any) {
             if (error.response && error.response.status === 404) {

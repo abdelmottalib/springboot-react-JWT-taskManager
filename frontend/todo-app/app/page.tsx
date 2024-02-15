@@ -2,6 +2,7 @@
 import {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import {useRouter} from "next/navigation";
+import Cookies from "js-cookie";
 // import {UserContext, useUserContext} from "@/app/TokenProvider";
 import {useAtom} from "jotai";
 import './globals.css';
@@ -18,7 +19,8 @@ interface todo {
 const TodoApp = () => {
     const {token, setToken} = useTokenContext();
     const getAuthToken = () => {
-        return token;
+        // return token;
+        return Cookies.get('jwt');
     };
 
     const axiosConfig = !getAuthToken() ? {} : {
@@ -54,6 +56,7 @@ const TodoApp = () => {
                 console.log('empty');
             }
         } catch (error) {
+            console.error('Error fetching todos:', error);
             router.push('/register');
         }
     };

@@ -13,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+
 
 @Configuration
 @EnableWebSecurity//this is for configuring the security
@@ -29,9 +31,17 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless session creation policy
                 )
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling
+                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    response.setStatus(SC_FORBIDDEN);
+                                    response.setContentType("application/json");
+                                    String jsonResponse = "{\"message\": \"You must be registered and logged in to access this resource\"}";
+                                    response.getWriter().write(jsonResponse);
+                                })
+                )
                 .authenticationProvider(authenticationProvider) // Add custom authentication provider
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT authentication filter before default username password filter
-
         return http.build();
     }
 }

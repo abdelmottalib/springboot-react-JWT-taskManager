@@ -4,7 +4,7 @@ import axios from 'axios';
 import {useTokenContext} from "@/app/tokenProvider";
 import {useAtom} from "jotai";
 import '../globals.css';
-
+import Cookies from 'js-cookie';
 import {userAtom} from "@/app/atoms";
 import {useRouter} from "next/navigation";
 
@@ -32,8 +32,14 @@ const page = () => {
             // const userInfo = await axios.get(`http://localhost:8080/users/${email}`);
             // Assuming your backend returns a JWT token upon successful registration
             const { token } = response.data;
-            setToken(token);
-            localStorage.setItem('token', token);
+            Cookies.set('jwt', token, {
+                expires: 7, // Optional: Set expiration in days
+                // httpOnly: true, // Important for security
+                secure: true,  // Use in production (with HTTPS)
+                sameSite: 'strict' // Can help mitigate CSRF
+            });
+            console.log("the token from the cookie ", Cookies.get('jwt'))
+            // setToken(token);
             router.push('/');
             // Handle the token (e.g., store it in local storage)
             // ...
