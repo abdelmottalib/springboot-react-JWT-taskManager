@@ -52,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
                 response.getWriter().write("Access token blacklisted");
                 return;
             }
+
             userEmail = jwtService.extractUsername(jwt);
             System.out.println("the jwt is extracted from the header: " + jwt);
             System.out.println("the name is extracted from the jwt: " + userEmail);
