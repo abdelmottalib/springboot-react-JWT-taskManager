@@ -74,6 +74,12 @@ const page = () => {
             }
         }
     }
+
+    async function handleGithubSignIn () {
+        // const response = await axios.get('/auth/google');
+        router.push("/oauth2/authorization/github");
+    }
+
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Sign In</h2>
@@ -112,6 +118,12 @@ const page = () => {
                 >
                     Sign In
                 </button>
+                {/*<button*/}
+                {/*    onClick={handleGithubSignIn}*/}
+                {/*    className="ml-2 bg-red-500 text-white py-2 px-4 rounded-md mt-4"*/}
+                {/*>*/}
+                {/*    Sign In with Github*/}
+                {/*</button>*/}
             </form>
         </div>
 
