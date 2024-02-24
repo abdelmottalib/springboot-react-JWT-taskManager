@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
         final String jwt;
         final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("the jwt is null");
+            
 //            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);//each filter is responsible to check for one type of authentication
             return;
@@ -47,18 +47,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
             jwt = authHeader.substring(7);
             blackListTokens.printBlackList();
             if (blackListTokens.isTokenInBlackList(jwt)) {
-                System.out.println("the jwt is blacklisted");
+                
                 response.setStatus(SC_UNAUTHORIZED);
                 response.getWriter().write("Access token blacklisted");
                 return;
             }
 
             userEmail = jwtService.extractUsername(jwt);
-            System.out.println("the jwt is extracted from the header: " + jwt);
-            System.out.println("the name is extracted from the jwt: " + userEmail);
+            
+            
             //check if the user is already authenticated
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                System.out.println("the user is not authenticated");
+                
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     //this object is needed by spring and contextholder to update the security context
@@ -69,20 +69,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {//the filter 
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException ex) { // catch the exception if the token has expired
-            System.out.println("JWT has expired: {}" + ex.getMessage());
+            
             response.setStatus(SC_UNAUTHORIZED);
             response.getWriter().write("Access token expired");
         }
         catch (MalformedJwtException ex) { // catch the exception if the token is malformed
-            System.out.println("JWT is malformed: {}"+ ex.getMessage());
+            
             response.setStatus(SC_UNAUTHORIZED);
             response.getWriter().write("JWT is malformed");
         } catch (UnsupportedJwtException exception) { // catch the exception if the token is unsupported
-            System.out.println("JWT is unsupported: {}"+ exception.getMessage());
+            
             response.setStatus(SC_UNAUTHORIZED);
             response.getWriter().write("JWT is unsupported");
         } catch (Exception ex) { // catch the exception if any other error occurs
-            System.out.println("Failed to extract username from JWT: {}"+ ex.getMessage());
+            
             response.sendError(SC_INTERNAL_SERVER_ERROR, "Failed to extract username from JWT");
         }
 

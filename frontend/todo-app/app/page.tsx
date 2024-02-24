@@ -6,8 +6,6 @@ import Cookies from "js-cookie";
 // import {UserContext, useUserContext} from "@/app/TokenProvider";
 import {useAtom} from "jotai";
 import './globals.css';
-import {userAtom} from "@/app/atoms";
-import {useTokenContext} from "@/app/tokenProvider";
 interface todo {
     id: number;
     title: string;
@@ -17,7 +15,6 @@ interface todo {
 
 
 const TodoApp = () => {
-    const {token, setToken} = useTokenContext();
     const getAuthToken = () => {
         // return token;
         return Cookies.get('jwt');
@@ -33,30 +30,19 @@ const TodoApp = () => {
     const [todos, setTodos] = useState<todo[]>([]);
     const [newDescription, setNewDescription] = useState('');
     const [newTitle, setNewTitle] = useState('');
-    const [idd, setIdd] = useAtom(userAtom);
     const fetchTodos = async () => {
         try {
-            console.log("the user is " + token);
-            console.log('fetching todos1');
-            console.log("the token when fetching is " + axiosConfig)
             if (!getAuthToken()) {
                 router.push('/register');
             }
-            console.log("the token axiosConfig: " + getAuthToken())
             const response = await axios.get(`http://localhost:8080/api/todos`, axiosConfig);
-            console.log('fetching todos2');
-
             // Ensure response.data is an array before sorting
             if (Array.isArray(response.data)) {
                 const sortedTodos = response.data.sort((a: todo, b: todo) => a.id - b.id);
-                console.log('fetching todos3');
                 setTodos(sortedTodos);
-
             } else {
-                console.log('empty');
             }
-        } catch (error) {
-            // @ts-ignore
+        } catch (error:any) {
             console.error('Error fetching todos:', error.response.data);
             router.push('/register');
         }
@@ -65,12 +51,12 @@ const TodoApp = () => {
 
     useEffect(() => {
             fetchTodos();
-            console.log(getAuthToken());
+            
     }, []);
     const addTodo = async () => {
         if (newDescription.trim() !== '') {
             try {
-                console.log("clicked");
+                
                 await axios.post(`http://localhost:8080/api/todos`, {
                     title: newTitle,
                     description: newDescription,
@@ -87,7 +73,7 @@ const TodoApp = () => {
     const fetchTodo = (id: number) => {
         try {
             const response = axios.get(`http://localhost:8080/api/v1/todos/${id}`);
-            console.log('response:', response);
+            
         } catch (error) {
             console.error('Error fetching todo:', error);
         }
@@ -96,7 +82,7 @@ const TodoApp = () => {
         try {
             // const response = await fetchTodo(id);
             const response = await axios.get(`http://localhost:8080/api/todos/${id}`, axiosConfig);
-            console.log('response:', response);
+            
             await axios.put(`http://localhost:8080/api/todos/${id}`, {
                 title: response.data.title,
                 description: response.data.description, done: !response.data.done
@@ -109,16 +95,16 @@ const TodoApp = () => {
 
     const removeTodo = async (id: number) => {
         try {
-            console.log("token in delete" + getAuthToken())
+            
             await axios.delete(`http://localhost:8080/api/todos/${id}`, axiosConfig);
-            console.log("deleted")
+            
             fetchTodos();
         } catch (error) {
             console.error('Error removing todo:', error);
         }
     };
     useEffect(() => {
-        console.log('todos:', todos);
+        
     }, [todos]);
 
     return (

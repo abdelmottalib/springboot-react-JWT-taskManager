@@ -1,22 +1,18 @@
 'use client';
 import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
-import {useTokenContext} from "@/app/tokenProvider";
 import {useAtom} from "jotai";
 import '../globals.css';
 import Cookies from 'js-cookie';
-import {userAtom} from "@/app/atoms";
 import {useRouter} from "next/navigation";
 
 const page = () => {
-    const {token, setToken} = useTokenContext();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [emailError, setEmailError] = useState(false);
-    const [id, setId] = useAtom(userAtom);
     const router = useRouter();
     const handleRegister = async () => {
         try {
@@ -38,7 +34,7 @@ const page = () => {
                 secure: true,  // Use in production (with HTTPS)
                 sameSite: 'strict' // Can help mitigate CSRF
             });
-            console.log("the token from the cookie ", Cookies.get('jwt'))
+            
             // setToken(token);
             router.push('/');
             // Handle the token (e.g., store it in local storage)
@@ -49,7 +45,7 @@ const page = () => {
             if (error.response && error.response.status === 409) {
                 // Display user-friendly error message about email being in use
                 setEmailError(true)
-                console.log("email is already in use")  // Replace with a real alert mechanism
+                
             } else {
                 // Handle other kinds of errors (network issues, etc.)
                 console.error('Registration failed:', error);
@@ -62,9 +58,6 @@ const page = () => {
             // setLastName("");
         }
     };
-    useEffect(() => {
-        console.log('User:', id);
-    }, [id]);
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Register</h2>

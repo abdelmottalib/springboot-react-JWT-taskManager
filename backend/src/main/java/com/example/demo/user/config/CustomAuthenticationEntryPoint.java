@@ -16,6 +16,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         res.setContentType("application/json;charset=UTF-8");
         res.setStatus(403);
         res.getWriter().write("You must be registered and logged in to access this resource");
-        System.out.println("the access denied handler is created");
+
     }
 }

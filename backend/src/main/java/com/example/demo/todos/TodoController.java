@@ -17,7 +17,6 @@ public class TodoController {
     }
     @GetMapping
     public List<Todo> getTodos(@AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("the user name is " + userDetails.getUsername());
         return this.todoService.getTodos(userDetails.getUsername());
     }
     @GetMapping("{id}")
@@ -26,18 +25,14 @@ public class TodoController {
     }
     @PostMapping
     public void addTodo(@AuthenticationPrincipal UserDetails userDetails,@RequestBody TodoRequest request) {
-        System.out.println("from controller in todo1");
-        System.out.println("the username is " + userDetails.getUsername());
         this.todoService.addTodo(userDetails.getUsername(), request);
     }
     @PutMapping("{id}")
     public void updateById(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("id") Integer id, @RequestBody TodoRequest request) {
-        System.out.println("from controller in updateById");
         this.todoService.updateById(userDetails.getUsername(), id, request);
     }
     @DeleteMapping("{id}")
     public void deleteById(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable("id") Integer id) {
-        System.out.println("from controller in deleteById");
         this.todoService.deleteById(userDetails.getUsername(), id);
     }
 }
