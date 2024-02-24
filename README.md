@@ -1,4 +1,4 @@
-#Task manager
+# Task manager
 
 A Task manager application built with Spring Boot for the backend, PostgreSQL for the database, Next.js for the frontend and using Spring Security JWT
 Prerequisites
