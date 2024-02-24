@@ -18,7 +18,7 @@ public class ExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (AccessDeniedException e) {
-            System.out.println("it works");
+            
         }
     }
 }

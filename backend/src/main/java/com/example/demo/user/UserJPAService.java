@@ -24,7 +24,7 @@ public class UserJPAService {
 
     @Transactional
     public void deleteUser(String email) {
-        System.out.println("reached the serviceJPA");
+        
         userRepository.deleteByEmail(email);
     }
 }

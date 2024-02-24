@@ -43,7 +43,7 @@ public class AuthenticationController {
     public void signout(HttpServletRequest request){
         final String authHeader = request.getHeader("Authorization");
         String jwt = authHeader.substring(7);
-        System.out.println("the jwt in the controller :"+jwt);
+
         blackListTokens.addToken(jwt);
     }
 }

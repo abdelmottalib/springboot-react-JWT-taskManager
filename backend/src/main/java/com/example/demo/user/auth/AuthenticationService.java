@@ -27,7 +27,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(registerRequest request) {
         if (userJPAService.existsByEmail(request.getEmail())) {
-            System.out.println("Email already exists");
+            
             throw new EmailAlreadyExistsException();
         }
         var user = User.builder()
@@ -41,21 +41,21 @@ public class AuthenticationService {
         var token = jwtService.generateToken(user);
         AuthenticationResponse build = AuthenticationResponse.builder()
                 .token(token).build();
-        System.out.println("the token sent by register is:"+token);
+        
         return build;
     }
     public  AuthenticationResponse signin(signinRequest request) {
-        System.out.println("from signin");
-        System.out.println("the email is:"+request.getEmail());
-        System.out.println("the password is:"+request.getPassword());
+        
+        
+        
         if (!userJPAService.existsByEmail(request.getEmail())) {
-            System.out.println("the email is in the database " + request.getEmail());
-            System.out.println("email doesnt exist");
+            
+            
             throw new EmailDoesntExistError();
         }
         User user = repository.findByEmail(request.getEmail()).orElseThrow();
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            System.out.println("password doesnt match");
+            
             throw new PasswordDoesntMatchError();
         }
         authenticationManager.authenticate(//if the username or the password are not correct it will throw an exception
@@ -66,7 +66,7 @@ public class AuthenticationService {
                 .token(token).build();
     }
     public void logout(String email) {
-        System.out.println("reached the service");
+        
         this.userJPAService.deleteUser(email);
     }
 }

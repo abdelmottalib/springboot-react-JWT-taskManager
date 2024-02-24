@@ -2,7 +2,6 @@
 import React, {FormEvent, useEffect, useState} from 'react';
 import axios from "axios";
 import {useRouter} from "next/navigation";
-import {useTokenContext} from "@/app/tokenProvider";
 import '../globals.css';
 import Cookies from "js-cookie";
 
@@ -10,7 +9,6 @@ import Cookies from "js-cookie";
 const page = () => {
     const [passwordError, setPasswordError] = useState(false)
     const [emailError, setEmailError] = useState(false)
-    const {token, setToken} =useTokenContext();
     const getAuthToken = () => {
         return Cookies.get('jwt');
     };
@@ -34,14 +32,14 @@ const page = () => {
         const check = async () => {
             try {
                 if (getAuthToken() !== null) {
-                    console.log('the token in signin is ' + getAuthToken())
+                    
                     const response = await axios.get('http://localhost:8080/api/todos', axiosConfig);
                     router.push('/');
                 }
             } catch (error) {
             }
         }
-        console.log(getAuthToken());
+        
         check();
     }, []);
     const handleSubmit = async (e:any) => {
@@ -52,8 +50,8 @@ const page = () => {
                 password,
             });
             const { token } = response.data;
-            console.log('token', token);
-            console.log('response.data.id', response.data.id);
+            
+            
             // setToken(token);
             Cookies.set('jwt', token, {
                 expires: 7, // Optional: Set expiration in days
@@ -66,20 +64,14 @@ const page = () => {
             if (error.response && error.response.status === 404) {
                 // Display user-friendly error message about email being in use
                 setEmailError(true)
-                console.log("email doesnt exist")  // Replace with a real alert mechanism
+                
             } else if (error.response && error.response.status === 401) {
                 setPasswordError(true)
                 // Handle other kinds of errors (network issues, etc.)
-                console.log("password is incorrect");
+                
             }
         }
     }
-
-    async function handleGithubSignIn () {
-        // const response = await axios.get('/auth/google');
-        router.push("/oauth2/authorization/github");
-    }
-
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Sign In</h2>
@@ -118,12 +110,6 @@ const page = () => {
                 >
                     Sign In
                 </button>
-                {/*<button*/}
-                {/*    onClick={handleGithubSignIn}*/}
-                {/*    className="ml-2 bg-red-500 text-white py-2 px-4 rounded-md mt-4"*/}
-                {/*>*/}
-                {/*    Sign In with Github*/}
-                {/*</button>*/}
             </form>
         </div>
 

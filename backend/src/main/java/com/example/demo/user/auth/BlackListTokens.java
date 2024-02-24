@@ -15,6 +15,6 @@ public class BlackListTokens {
         return blackList.contains(token);
     }
     public void printBlackList(){
-        System.out.println(blackList);
+        
     }
 }

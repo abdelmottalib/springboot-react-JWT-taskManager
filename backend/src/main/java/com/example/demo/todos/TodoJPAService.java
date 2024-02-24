@@ -19,15 +19,11 @@ public class TodoJPAService implements TodoDao {
 
     @Override
     public List<Todo> getTodos(Integer userId) {
-        System.out.println("from service in todo");
         return todoRepository.findByUserId(userId);
     }
     @Override
     public void addTodo(User user, TodoRequest request) {
-        System.out.println("from dao in todo1");
-        System.out.println("from dao in todo2");
         Todo todo = new Todo(request.getTitle(), request.getDescription(), request.getDone(), user);
-        System.out.println("from dao in todo4");
         todoRepository.save(todo);
     }
     @Override

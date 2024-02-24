@@ -27,10 +27,10 @@ public class TodoService {
 
         public void addTodo(String email, TodoRequest request) {
         if (request.getTitle() == null || request.getDescription() == null || request.getDone() == null) {
-            System.out.println("from exception 1");
+
             throw new FieldIsEmptyException("Title, description, and done fields cannot be empty");
         }
-        System.out.println("from service in todo");
+
         User user = userService.getUserByEmail(email);
         this.todoDao.addTodo(user ,request);
     }
@@ -38,7 +38,7 @@ public class TodoService {
         User user = userService.getUserByEmail(email);
         Todo todo = this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
         if (!Objects.equals(todo.getUser().getId(), user.getId())) {
-            System.out.println("this is not your todo");
+
             throw new IdNotFoundException("this is not your todo");
         }
         this.todoDao.deleteById(id);
@@ -47,17 +47,17 @@ public class TodoService {
         User user = userService.getUserByEmail(email);
         Todo todo = this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
         if (!Objects.equals(todo.getUser().getId(), user.getId())) {
-            System.out.println("this is not your todo");
+
             throw new IdNotFoundException("this is not your todo");
         }
         return todo;
     }
     public void updateById(String email, Integer id, TodoRequest request) {
-        System.out.println("from service in updateById");
+
         User user = userService.getUserByEmail(email);
         Todo todo = this.todoDao.findById(id).orElseThrow(() -> new IdNotFoundException("Todo with id " + id + " not found"));
         if (!Objects.equals(todo.getUser().getId(), user.getId())) {
-            System.out.println("this is not your todo");
+
             throw new IdNotFoundException("this is not your todo");
         }
         this.todoDao.updateById(id, request);
