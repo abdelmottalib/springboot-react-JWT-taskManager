@@ -9,7 +9,7 @@ spring:
   main:
     web-application-type: servlet
   datasource:
-    url: jdbc:postgresql://localhost:5432/todos
+    url: jdbc:postgresql://localhost:5432/tasks
   jpa:
     hibernate:
       #If you have set spring.jpa.hibernate.ddl-auto to validate, it means that Hibernate will not attempt to update the database schema automatically. Instead, it will validate the existing database schema against the entity mappings and raise an exception if there are inconsistencies.
