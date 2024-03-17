@@ -15,7 +15,7 @@ Backend Setup (Spring Boot)
 
 Configure Database:
 
-    Create a PostgreSQL database named chat.
+    Create a PostgreSQL database named tasks.
 
     Update database configuration in backend/src/main/resources/application.properties:
 
